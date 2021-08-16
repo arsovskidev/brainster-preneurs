@@ -40,4 +40,14 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function academy()
+    {
+        return $this->belongsTo(Academy::class);
+    }
+
+    public function skills()
+    {
+        return $this->belongsToMany(Skill::class);
+    }
 }
