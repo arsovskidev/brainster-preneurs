@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\AjaxController;
+use App\Http\Controllers\Auth\AjaxController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\HomeController;

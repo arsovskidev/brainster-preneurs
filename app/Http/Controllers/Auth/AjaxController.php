@@ -1,12 +1,13 @@
 <?php
 
-namespace App\Http\Controllers\Api;
+namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Api\ResponseController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Session;
 use App\Traits\ImageUpload;
 use App\Models\Academy;
 use App\Models\User;
@@ -31,6 +32,10 @@ class AjaxController extends ResponseController
         }
 
         if (Auth::attempt($input)) {
+            /** @var \App\Models\User */
+            $user = Auth::user();
+            Session::put('access_token', $user->createToken('access_token')->plainTextToken);
+
             return $this->sendResponse("success", ['message' => 'Logged in.'], 200);
         }
 
@@ -59,6 +64,7 @@ class AjaxController extends ResponseController
 
         $user = User::create($input);
         Auth::login($user);
+        Session::put('access_token', $user->createToken('access_token')->plainTextToken);
 
         return $this->sendResponse("success", ['message' => 'Account successfully created, you can now continue setting up your profile.'], 200);
     }
