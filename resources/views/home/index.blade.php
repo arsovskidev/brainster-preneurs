@@ -7,6 +7,6 @@
     <title>Home</title>
 </head>
 <body>
-    
+    <h1>{{ Session::get('access_token') }}</h1>
 </body>
 </html>
