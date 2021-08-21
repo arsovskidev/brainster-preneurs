@@ -8,7 +8,7 @@
 
 @section('body')
 <body>
-  <section id="step-one" class="d-none">
+  <section id="step-one" class="animate__animated d-none">
     <div class="container">
       <div class="row">
         <div class="col-md-6">
@@ -19,21 +19,21 @@
               </div>
               <div class="row">
                 <div class="col-md-5">
-                  <input id="name" placeholder="Name" type="text" />
+                  <input id="name" placeholder="Name" type="text" required/>
                   <div class="bottom-line"></div>
                 </div>
                 <div class="col-md-5 offset-md-2">
-                  <input id="surname" placeholder="Surname" type="text" />
+                  <input id="surname" placeholder="Surname" type="text" required/>
                   <div class="bottom-line"></div>
                 </div>
               </div>
               <div class="row">
                 <div class="col-md-5">
-                  <input id="email" placeholder="Email" type="text" />
+                  <input id="email" placeholder="Email" type="text" required/>
                   <div class="bottom-line"></div>
                 </div>
                 <div class="col-md-5 offset-md-2">
-                  <input id="password" placeholder="Password" type="password" />
+                  <input id="password" placeholder="Password" type="password" required/>
                   <div class="bottom-line"></div>
                 </div>
               </div>
@@ -42,9 +42,9 @@
                 id="biography"
                 rows="6"
                 placeholder="Write your biography."
+                required
               ></textarea>
               <button
-                id="submit"
                 class="btn btn-green text-uppercase font-weight-bold text-light"
               >
                 next
@@ -55,12 +55,12 @@
       </div>
     </div>
   </section>
-  <section id="step-two" class="d-none">
+  <section id="step-two" class="animate__animated d-none">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="register">
-            <form>
+            <form id="step_two_form">
               <div class="row align-items-center">
                 <div class="col-xl-4">
                   <div class="display-4 font-weight-bold text-blue mb-4">
@@ -76,48 +76,14 @@
               </h5>
 
               <div class="select-academy">
-                <label>
-                  <input type="radio" name="academy" value="0" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="radio" name="academy" value="1" />
-                  <div class="box">
-                    <span>Frontend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="radio" name="academy" value="2" />
-                  <div class="box">
-                    <span>Marketing</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="radio" name="academy" value="3" />
-                  <div class="box">
-                    <span>Data Science</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="radio" name="academy" value="4" />
-                  <div class="box">
-                    <span>Design</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="radio" name="academy" value="5" />
-                  <div class="box">
-                    <span>QA</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="radio" name="academy" value="6" />
-                  <div class="box">
-                    <span>UX/UI</span>
-                  </div>
-                </label>
+                @foreach ($academies as $academy)
+                  <label>
+                    <input type="radio" name="academy" value="{{ $academy->id }}" />
+                    <div class="box">
+                      <span>{{ $academy->name }}</span>
+                    </div>
+                  </label>
+                @endforeach
               </div>
 
               <div class="d-flex flex-column align-items-end">
@@ -138,12 +104,12 @@
       </div>
     </div>
   </section>
-  <section id="step-three" class="d-none">
+  <section id="step-three" class="animate__animated d-none">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="register">
-            <form>
+            <form id="step_three_form">
               <div class="row align-items-center">
                 <div class="col-xl-2">
                   <div class="display-4 font-weight-bold text-blue mb-4">
@@ -157,42 +123,14 @@
               <h5 class="font-weight-light">Please select your skills set</h5>
 
               <div class="select-skills">
-                <label>
-                  <input type="checkbox" name="skills[]" value="0" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="checkbox" name="skills[]" value="1" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="checkbox" name="skills[]" value="1" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="checkbox" name="skills[]" value="1" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="checkbox" name="skills[]" value="1" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
-                <label>
-                  <input type="checkbox" name="skills[]" value="1" />
-                  <div class="box">
-                    <span>Backend Development</span>
-                  </div>
-                </label>
+                @foreach ($skills as $skill)
+                    <label>
+                      <input type="checkbox" name="skills[]" value="{{ $skill->id }}"/>
+                      <div class="box">
+                        <span>{{ $skill->name }}</span>
+                      </div>
+                    </label>
+                @endforeach
               </div>
 
               <div class="d-flex flex-column align-items-end">
@@ -213,12 +151,12 @@
       </div>
     </div>
   </section>
-  <section id="step-four" class="d-none">
+  <section id="step-four" class="animate__animated d-none">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
           <div class="register">
-            <form>
+            <form id="step_four_form">
               <div class="row align-items-center">
                 <div class="col-xl-6">
                   <div class="display-4 font-weight-bold text-blue mb-4">
@@ -237,8 +175,8 @@
                   src="{{ asset('images/default-profile-image.png')}}"
                   style="width: 200px; height: 200px"
                 />
-                <input accept="image/*" type="file" id="profileImage" hidden />
-                <label class="h4 font-weight-light my-5" for="profileImage">
+                <input accept="image/*" type="file" id="image" name="image" hidden />
+                <label class="h4 font-weight-light my-5" for="image">
                   Click here to upload an image
                 </label>
 
@@ -266,37 +204,32 @@
       if (step === "step-one") {
         $("body").addClass("bg-register");
         $("#step-one").removeClass("d-none");
+        $("#step-one").addClass("animate__fadeIn");
       } else if (step === "step-two") {
         $("#step-two").removeClass("d-none");
+        $("#step-two").addClass("animate__fadeIn");
       } else if (step === "step-three") {
         $("#step-three").removeClass("d-none");
+        $("#step-three").addClass("animate__fadeIn");
       } else if (step === "step-four") {
         $("#step-four").removeClass("d-none");
+        $("#step-four").addClass("animate__fadeIn");
       }
-
-      // Max Skills Validation.
-      let max_skills = 5;
-      $("input[type=checkbox]").click(function () {
-        let n = $(".select-skills input:checked").length;
-        if (n > max_skills) {
-          $(this).prop("checked", false);
-          alert("Max of 5");
-        }
-      });
-
+      
       // Profile Image Preview.
-      profileImage.onchange = (evt) => {
-        const [file] = profileImage.files;
+      image.onchange = (evt) => {
+        const [file] = image.files;
         if (file) {
           profileImagePreview.src = URL.createObjectURL(file);
         }
       };
 
+      alertify.set('notifier','position', 'top-right');
+
+      // Step One
       $("#step_one_form").on("submit", function (e) {
         e.preventDefault();
-      });
 
-      $(document).on("click", "#step_one_form #submit", function () {
         let name = $("#step_one_form #name");
         let surname = $("#step_one_form #surname");
         let biography = $("#step_one_form #biography");
@@ -304,7 +237,7 @@
         let password = $("#step_one_form #password");
 
         $.ajax({
-          url: "/register",
+          url: "/register/step-one",
           type: "POST",
           data: jQuery.param({
             name: name.val(),
@@ -312,17 +245,125 @@
             biography: biography.val(),
             email: email.val(),
             password: password.val(),
-          }),        
+          }),
           headers: {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
           },
           success: function (data) {
-            console.log(data);
+            alertify.success(data.data.message);
+
+            $("body").removeClass("bg-register");
+            $("#step-one").addClass("animate__fadeOut");
+
+            setTimeout(function(){
+              $("#step-one").addClass("d-none");
+
+              $("#step-two").removeClass("d-none");
+              $("#step-two").addClass("animate__fadeIn");
+            }, 1000);
           },
           error: function (xhr, status, error) {
-            $.each(xhr.responseJSON.data.messages, function (key, value) {
-              console.log(value[0]);
+            $.each(xhr.responseJSON.data.message, function (key, value) {
+              alertify.error(value[0]);
             });
+          },
+        });
+      });
+
+      // Step Two
+      $("#step_two_form").on("submit", function (e) {
+        e.preventDefault();
+
+        let academy = $("#step_two_form input[name='academy']:checked");
+
+        $.ajax({
+          url: "/register/step-two",
+          type: "POST",
+          data: jQuery.param({
+            academy: academy.val(),
+          }),
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+          success: function (data) {
+            alertify.success(data.data.message);
+            
+            $("#step-two").addClass("animate__fadeOut");
+
+            setTimeout(function(){
+              $("#step-two").addClass("d-none");
+
+              $("#step-three").removeClass("d-none");
+              $("#step-three").addClass("animate__fadeIn");
+            }, 1000);
+          },
+          error: function (xhr, status, error) {
+            alertify.error(xhr.responseJSON.data.message);
+          },
+        });
+      });
+
+      // Step Three
+      $("#step_three_form").on("submit", function (e) {
+        e.preventDefault();
+
+        let skills = [];
+        $("#step_three_form input:checked").each(function() {
+          skills.push($(this).val()); 
+        });
+
+        $.ajax({
+          url: "/register/step-three",
+          type: "POST",
+          data: jQuery.param({
+            skills: skills,
+          }),
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+          success: function (data) {
+            alertify.success(data.data.message);
+            
+            $("#step-three").addClass("animate__fadeOut");
+
+            setTimeout(function(){
+              $("#step-three").addClass("d-none");
+
+              $("#step-four").removeClass("d-none");
+              $("#step-four").addClass("animate__fadeIn");
+            }, 1000);
+          },
+          error: function (xhr, status, error) {
+            alertify.error(xhr.responseJSON.data.message);
+          },
+        });
+      });
+
+      // Step Four
+      $("#step_four_form").on("submit", function (e) {
+        e.preventDefault();
+        let formData = new FormData(this);
+
+        $.ajax({
+          url: "/register/step-four",
+          type: "POST",
+          data: formData,
+          contentType: false,
+          processData: false,
+          headers: {
+            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+          },
+          success: function (data) {
+            alertify.success(data.data.message);
+            
+            $("#step-four").addClass("animate__fadeOut");
+
+            setTimeout(function(){
+              window.location.replace('/');
+            }, 1000);
+          },
+          error: function (xhr, status, error) {
+            alertify.error(xhr.responseJSON.data.message);
           },
         });
       });
