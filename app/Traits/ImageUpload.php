@@ -7,8 +7,8 @@ trait ImageUpload
     public function ImageUpload($query)
     {
         $ext = strtolower($query->getClientOriginalExtension());
-        $image = '/profile/images/' . time() . '.' . $ext;
-        $query->move(public_path('profile/images'), $image);
+        $image = '/users/images/' . time() . '.' . $ext;
+        $query->move(public_path('users/images'), $image);
 
         return $image;
     }

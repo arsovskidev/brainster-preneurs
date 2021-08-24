@@ -10,4 +10,19 @@ class HomeController extends Controller
     {
         return view('home.index');
     }
+
+    public function profile()
+    {
+        return view('home.profile');
+    }
+
+    public function projects()
+    {
+        return view('home.projects');
+    }
+
+    public function applications()
+    {
+        return view('home.applications');
+    }
 }

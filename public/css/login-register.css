@@ -1,6 +1,18 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+
+html {
+    background-color: #f6f6f6;
+}
+
+body {
+    font-family: "Montserrat";
+    color: #212529;
+    background-color: #f6f6f6;
+}
+
 /* Backgrounds */
 .bg-login {
-    background: url(../images/1.jpg);
+    background: url(../backgrounds/1.jpg);
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;
@@ -9,7 +21,7 @@
     background-position: top;
 }
 .bg-register {
-    background: url(../images/2.jpg);
+    background: url(../backgrounds/2.jpg);
     background-repeat: no-repeat;
     -webkit-background-size: cover;
     -moz-background-size: cover;

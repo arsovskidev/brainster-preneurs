@@ -8,4 +8,176 @@ body {
     font-family: "Montserrat";
     color: #000000;
     background-color: #f6f6f6;
+    padding-top: 59px;
+}
+
+nav {
+    border-bottom: 3px solid #dd7f1e;
+}
+.navbar-nav li a {
+    color: #212529 !important;
+}
+.navbar-nav > .active > a {
+    color: #808080 !important;
+}
+.profile-thumbnail {
+    width: 40px;
+    height: 40px;
+}
+
+.fs-24 {
+    font-size: 24px;
+}
+.fs-12 {
+    font-size: 12px;
+}
+.fs-11 {
+    font-size: 11px;
+}
+.fs-10 {
+    font-size: 10px;
+}
+.fs-9 {
+    font-size: 9px;
+}
+.fs-8 {
+    font-size: 8px;
+}
+.text-blue {
+    color: #132540;
+}
+.text-gray {
+    color: #949d99;
+}
+.text-orange {
+    color: #dd7f1e;
+}
+.text-green {
+    color: #48695c;
+}
+.text-red {
+    color: #ff5757;
+}
+
+.ajs-message .ajs-error {
+    color: #fff;
+    background-color: black !important;
+}
+
+/* BACKGROUNDS */
+.bg-home {
+    background: url(../backgrounds/3.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.bg-projects {
+    background: url(../backgrounds/4.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+}
+.bg-applications {
+    background: url(../backgrounds/5.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* HOME */
+.btn-project-green {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #48695c;
+    color: #ffffff;
+    font-size: 13px;
+    width: 150px;
+    height: 35px;
+}
+.text-orange a,
+.text-orange a:hover {
+    color: #dd7f1e;
+}
+.green-circle {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80px;
+    width: 80px;
+    background-color: #48695c;
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 50%;
+    display: inline-block;
+}
+.half-green-circle {
+    width: 50px;
+    height: 30px;
+    background-color: #48695c;
+    border-top-left-radius: 40px;
+    border-top-right-radius: 40px;
+}
+.card {
+    margin-top: 100px;
+    border: 0px;
+    border-radius: 30px;
+}
+.project-filter {
+    margin-top: 40px;
+}
+
+.project-filter input[type="radio"] {
+    display: none;
+}
+.project-filter input[type="radio"]:checked + .box {
+    background-color: #48695c;
+}
+.project-filter input[type="radio"]:checked + .box span {
+    color: white;
+}
+.project-filter input[type="radio"]:checked + .box span:before {
+    opacity: 1;
+}
+.project-filter .box {
+    width: 120px;
+    height: 55px;
+    background-color: #fff;
+    transition: all 250ms ease;
+    will-change: transition;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 900;
+    border-radius: 10px;
+}
+.project-filter .box:active {
+    transform: translateY(10px);
+}
+.project-filter .box span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    transition: all 300ms ease;
+    font-size: 12px;
+    user-select: none;
+    color: #292b2c;
+}
+.project-filter .box span:before {
+    font-size: 12px;
+    display: block;
+    transform: translateY(-80px);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+    font-weight: normal;
+    color: white;
 }
