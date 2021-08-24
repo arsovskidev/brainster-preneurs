@@ -32,6 +32,9 @@ Route::prefix('register')->group(function () {
 });
 
 Route::middleware(['auth', 'profile.completed'])->group(function () {
-    Route::get('/',            [HomeController::class, 'index'])->name('home');
-    Route::get('/logout',      [LoginController::class, 'logout'])->name('logout');
+    Route::get('/',             [HomeController::class, 'index'])->name('home');
+    Route::get('/profile',      [HomeController::class, 'profile'])->name('profile');
+    Route::get('/projects',     [HomeController::class, 'projects'])->name('projects');
+    Route::get('/applications', [HomeController::class, 'applications'])->name('applications');
+    Route::get('/logout',       [LoginController::class, 'logout'])->name('logout');
 });
