@@ -4,7 +4,7 @@
     <link rel="stylesheet" href="{{ asset('css/global.css') }}" />
 @endsection
 
-@section('title', 'Login')
+@section('title', 'Home')
 
 @section('body')
 

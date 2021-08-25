@@ -47,11 +47,11 @@ class AjaxController extends ResponseController
         $input = $request->all();
 
         $rules = [
-            'name' => 'required|alpha',
-            'surname' => 'required|alpha',
+            'name' => 'required|alpha|max:255',
+            'surname' => 'required|alpha|max:255',
             'biography' => 'required|min:50|max:255',
-            'email' => 'required|email',
-            'password' => 'required|min:8',
+            'email' => 'required|email|max:255',
+            'password' => 'required|min:8|max:64',
         ];
 
         $validation = Validator::make($input, $rules);
