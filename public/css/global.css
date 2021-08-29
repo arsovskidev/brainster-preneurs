@@ -58,9 +58,12 @@ nav {
 .text-red {
     color: #ff5757;
 }
-
+.btn-orange {
+    background-color: #dd7f1e;
+    color: #ffffff;
+}
 .ajs-message .ajs-error {
-    color: #fff;
+    color: #ffffff;
     background-color: black !important;
 }
 
@@ -130,6 +133,7 @@ nav {
     margin-top: 100px;
     border: 0px;
     border-radius: 30px;
+    animation: expand 1s ease-in-out;
 }
 .project-filter {
     margin-top: 40px;
@@ -180,4 +184,11 @@ nav {
     transition: all 300ms ease-in-out;
     font-weight: normal;
     color: white;
+}
+
+@keyframes expand {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
 }

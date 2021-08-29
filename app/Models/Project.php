@@ -18,4 +18,9 @@ class Project extends Model
     {
         return $this->belongsToMany(Academy::class);
     }
+
+    public function applications()
+    {
+        return $this->belongsToMany(User::class, 'applications', 'project_id', 'user_id');
+    }
 }
