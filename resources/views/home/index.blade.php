@@ -41,8 +41,13 @@
                             </section>
                         </div>
                     </div>
-                    <div class="text-center">
-                        <button id="pagination" class="btn btn-orange mt-5 d-none">Show more</button>
+                    <div id="pagination" class="text-center my-5">
+                        <button id="pagination_prev" class="btn btn-orange mt-5 mr-1" disabled>
+                            <i class="fas fa-arrow-left"></i>
+                        </button>
+                        <button id="pagination_next" class="btn btn-orange mt-5 ml-1" disabled>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -75,13 +80,14 @@
                 </div>
             </div>
         </div>
-
-
         <script>
             $(document).ready(function() {
+                let prev_page;
                 let next_page;
 
                 function render_projects(data) {
+                    $("#projects").html("");
+
                     for (let i = 0; i < data.length; i++) {
                         setTimeout(function() {
                             let node = `<div class="card">
@@ -208,21 +214,27 @@
                     },
                     data: {},
                     success: function(data) {
-                        render_projects(data.data)
+                        $("#pagination").removeClass("d-none");
+
+                        render_projects(data.data);
+                        prev_page = data.links.prev;
                         next_page = data.links.next;
 
-                        if (next_page != null) {
-                            $("#pagination").removeClass('d-none');
-                        }
-
+                        pagination_button_disabler(prev_page, next_page);
                     },
                     error: function(xhr, status, error) {
-                        alertify.error(xhr.responseJSON.data)
+                        $("#pagination").addClass("d-none");
+                        alertify.error(xhr.responseJSON.data);
                     }
                 });
 
                 // Project Filter
                 $(document).on('change', "input[name='project-filter']", function(e) {
+                    // Fast scroll to top
+                    $("html, body").animate({
+                        scrollTop: 0
+                    }, "fast");
+
                     let academy = $("input[name='project-filter']:checked");
                     let url;
                     if (academy.val() != 0) {
@@ -240,23 +252,60 @@
                         data: {},
                         success: function(data) {
                             $('#projects').html('');
-                            render_projects(data.data)
+                            $("#pagination").removeClass("d-none");
+
+                            render_projects(data.data);
+                            prev_page = data.links.prev;
                             next_page = data.links.next;
 
-                            if (next_page != null) {
-                                $("#pagination").removeClass('d-none');
-                            }
-
+                            pagination_button_disabler(prev_page, next_page);
                         },
                         error: function(xhr, status, error) {
                             $('#projects').html('');
+                            $("#pagination").addClass("d-none");
                             alertify.error(xhr.responseJSON.data)
                         }
                     });
                 });
 
-                // Pagination
-                $("#pagination").click(function() {
+                // Pagination Prev
+                $("#pagination_prev").click(function() {
+                    // Fast scroll to top
+                    $("html, body").animate({
+                        scrollTop: 0
+                    }, "fast");
+                    // Api Call
+                    $.ajax({
+                        url: prev_page,
+                        type: 'GET',
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('Authorization',
+                                'Bearer {{ Session::get('access_token') }}');
+                        },
+                        data: {},
+                        success: function(data) {
+                            render_projects(data.data)
+                            prev_page = data.links.prev
+                            next_page = data.links.next
+
+                            pagination_button_disabler(prev_page, next_page);
+
+                        },
+                        error: function(xhr, status, error) {
+                            alertify.error(
+                                'There is an error with the server, please try again later.'
+                            );
+                        }
+                    });
+                });
+
+                // Pagination Next
+                $("#pagination_next").click(function() {
+                    // Fast scroll to top
+                    $("html, body").animate({
+                        scrollTop: 0
+                    }, "fast");
+                    // Api Call
                     $.ajax({
                         url: next_page,
                         type: 'GET',
@@ -267,12 +316,10 @@
                         data: {},
                         success: function(data) {
                             render_projects(data.data)
+                            prev_page = data.links.prev
                             next_page = data.links.next
 
-                            if (next_page == null) {
-                                $("#pagination").addClass('d-none');
-                            }
-
+                            pagination_button_disabler(prev_page, next_page);
                         },
                         error: function(xhr, status, error) {
                             alertify.error(
@@ -280,10 +327,22 @@
                             );
                         }
                     });
-
-
                 });
 
+                // Pagination button disabler
+                function pagination_button_disabler(prev_page, next_page) {
+                    if (prev_page != null) {
+                        $("#pagination_prev").attr("disabled", false);
+                    } else {
+                        $("#pagination_prev").attr("disabled", true);
+                    }
+
+                    if (next_page != null) {
+                        $("#pagination_next").attr("disabled", false);
+                    } else {
+                        $("#pagination_next").attr("disabled", true);
+                    }
+                }
                 // Show more
                 $(document).on('click', "#more", function() {
                     $(this).parent().parent().find('#description').removeClass('d-none')
