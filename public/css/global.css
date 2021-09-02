@@ -58,9 +58,12 @@ nav {
 .text-red {
     color: #ff5757;
 }
-
+.btn-orange {
+    background-color: #dd7f1e;
+    color: #ffffff;
+}
 .ajs-message .ajs-error {
-    color: #fff;
+    color: #ffffff;
     background-color: black !important;
 }
 
@@ -130,24 +133,36 @@ nav {
     margin-top: 100px;
     border: 0px;
     border-radius: 30px;
+    animation: expand 1s ease-in-out;
 }
 .project-filter {
     margin-top: 40px;
 }
 
-.project-filter input[type="radio"] {
+.select-project-academies {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+.project-filter input[type="radio"],
+.select-project-academies input[type="checkbox"] {
     display: none;
 }
-.project-filter input[type="radio"]:checked + .box {
+.project-filter input[type="radio"]:checked + .box,
+.select-project-academies input[type="checkbox"]:checked + .box {
     background-color: #48695c;
 }
-.project-filter input[type="radio"]:checked + .box span {
+.project-filter input[type="radio"]:checked + .box span,
+.select-project-academies input[type="checkbox"]:checked + .box span {
     color: white;
 }
-.project-filter input[type="radio"]:checked + .box span:before {
+.project-filter input[type="radio"]:checked + .box span:before,
+.select-project-academies input[type="checkbox"]:checked + .box span:before {
     opacity: 1;
 }
-.project-filter .box {
+.project-filter .box,
+.select-project-academies .box {
     width: 120px;
     height: 55px;
     background-color: #fff;
@@ -160,19 +175,36 @@ nav {
     font-weight: 900;
     border-radius: 10px;
 }
-.project-filter .box:active {
+.project-filter .box {
+    width: 120px;
+    height: 55px;
+}
+.select-project-academies .box {
+    width: 110px;
+    height: 110px;
+}
+.project-filter .box:active,
+.select-project-academies .box:active {
     transform: translateY(10px);
 }
-.project-filter .box span {
+.project-filter .box span,
+.select-project-academies .box span {
     display: inline-block;
     vertical-align: middle;
     line-height: normal;
     transition: all 300ms ease;
-    font-size: 12px;
     user-select: none;
+}
+.project-filter .box span {
+    font-size: 12px;
     color: #292b2c;
 }
-.project-filter .box span:before {
+.select-project-academies .box span {
+    font-size: 14px;
+    color: #132540;
+}
+.project-filter .box span:before,
+.select-project-academies .box span:before {
     font-size: 12px;
     display: block;
     transform: translateY(-80px);
@@ -180,4 +212,78 @@ nav {
     transition: all 300ms ease-in-out;
     font-weight: normal;
     color: white;
+}
+
+.shield {
+    right: var(--right, 10px);
+    top: var(--top, -3px);
+    filter: drop-shadow(2px 3px 2px rgba(0, 0, 0, 0.5));
+}
+.shield > .content {
+    color: white;
+    text-align: center;
+    font-weight: 400;
+    background: var(--color, #dd7f1e)
+        linear-gradient(
+            45deg,
+            rgba(0, 0, 0, 0) 0%,
+            rgba(255, 255, 255, 0.25) 100%
+        );
+    padding: 8px 2px 4px;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 100%, 0 100%);
+    width: var(--width, 32px);
+    min-height: var(--height, 36px);
+    transition: clip-path 1s, padding 1s, background 1s;
+}
+.shield.down > .content {
+    clip-path: polygon(
+        0 0,
+        100% 0,
+        100% calc(100% - 8px),
+        50% 100%,
+        0 calc(100% - 8px)
+    );
+}
+.shield .dot {
+    height: 23px;
+    width: 23px;
+    background-color: #48695c;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+/* Create/Edit project */
+.create-edit-project input {
+    font-size: 12pt;
+    line-height: 28pt;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: black;
+}
+.create-edit-project .bottom-line {
+    border: 3px solid black;
+    border-radius: 10px;
+}
+.create-edit-project .btn-green {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #48695c;
+    width: 200px;
+    height: 50px;
+}
+.create-edit-project textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    resize: none;
+}
+
+@keyframes expand {
+    from {
+        transform: scale(0);
+        opacity: 0;
+    }
 }

@@ -8,13 +8,13 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav ml-auto text-center font-weight-bold">
-            <li class="nav-item {{ Route::currentRouteNamed('projects') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->segment(1) == 'projects' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('projects') }}">My Projects</a>
             </li>
-            <li class="nav-item {{ Route::currentRouteNamed('applications') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->segment(1) == 'applications' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('applications') }}">My Applications</a>
             </li>
-            <li class="nav-item {{ Route::currentRouteNamed('profile') ? 'active' : '' }}">
+            <li class="nav-item {{ request()->segment(1) == 'profile' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('profile') }}">My Profile</a>
             </li>
             <li class="nav-item ml-5 mr-5">
