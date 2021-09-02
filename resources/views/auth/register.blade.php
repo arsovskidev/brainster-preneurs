@@ -81,7 +81,8 @@
                                 </div>
 
                                 <div class="d-flex flex-column align-items-end">
-                                    <button class="
+                                    <button
+                                        class="
                                 btn btn-green
                                 text-uppercase
                                 font-weight-bold
@@ -126,7 +127,8 @@
                                 </div>
 
                                 <div class="d-flex flex-column align-items-end">
-                                    <button class="
+                                    <button
+                                        class="
                                 btn btn-green
                                 text-uppercase
                                 font-weight-bold
@@ -166,7 +168,8 @@
                                         Click here to upload an image
                                     </label>
 
-                                    <button class="
+                                    <button
+                                        class="
                                 btn btn-green
                                 text-uppercase
                                 font-weight-bold
@@ -183,6 +186,9 @@
         </section>
         <script>
             $(document).ready(function() {
+
+                alertify.set('notifier', 'position', 'top-right');
+
                 // Registration Step Checking.
                 let step = "{{ $step }}";
                 if (step === "step-one") {
@@ -207,8 +213,6 @@
                         profileImagePreview.src = URL.createObjectURL(file);
                     }
                 };
-
-                alertify.set('notifier', 'position', 'top-right');
 
                 // Step One
                 $("#step_one_form").on("submit", function(e) {
@@ -247,9 +251,11 @@
                             }, 1000);
                         },
                         error: function(xhr, status, error) {
-                            $.each(xhr.responseJSON.data.message, function(key, value) {
-                                alertify.error(value[0]);
-                            });
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         },
                     });
                 });
@@ -282,7 +288,11 @@
                             }, 1000);
                         },
                         error: function(xhr, status, error) {
-                            alertify.error(xhr.responseJSON.data.message);
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         },
                     });
                 });
@@ -318,7 +328,11 @@
                             }, 1000);
                         },
                         error: function(xhr, status, error) {
-                            alertify.error(xhr.responseJSON.data.message);
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         },
                     });
                 });
@@ -347,7 +361,11 @@
                             }, 1000);
                         },
                         error: function(xhr, status, error) {
-                            alertify.error(xhr.responseJSON.data.message);
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         },
                     });
                 });

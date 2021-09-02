@@ -57,7 +57,7 @@ class AjaxController extends ResponseController
         $validation = Validator::make($input, $rules);
 
         if ($validation->fails()) {
-            return $this->sendResponse("error", ['message' => $validation->errors()], 400);
+            return $this->sendResponse("error", ['message' => $validation->errors()->first()], 400);
         }
 
         $input['password'] = Hash::make($input['password']);

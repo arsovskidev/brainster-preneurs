@@ -10,7 +10,7 @@
 
     <body class="bg-home">
 
-        @include('components.navbar-lite')
+        @include('components.navbar_lite')
 
         <div class="container-fluid">
             <div class="row mx-5 mt-5">
@@ -85,8 +85,10 @@
                 let prev_page;
                 let next_page;
 
+                // Render cards in html dom from array
                 function render_projects(data) {
                     $("#projects").html("");
+                    $("#pagination").addClass('d-none');
 
                     for (let i = 0; i < data.length; i++) {
                         setTimeout(function() {
@@ -175,6 +177,23 @@
                         }, 200 * i);
                     }
 
+                    $("#pagination").removeClass('d-none');
+
+                }
+
+                // Pagination button logic
+                function pagination_button_logic(prev_page, next_page) {
+                    if (prev_page != null) {
+                        $("#pagination_prev").attr("disabled", false);
+                    } else {
+                        $("#pagination_prev").attr("disabled", true);
+                    }
+
+                    if (next_page != null) {
+                        $("#pagination_next").attr("disabled", false);
+                    } else {
+                        $("#pagination_next").attr("disabled", true);
+                    }
                 }
 
                 // List Filter Academies
@@ -200,7 +219,11 @@
 
                     },
                     error: function(xhr, status, error) {
-                        alertify.error(xhr.responseJSON.data)
+                        if (xhr.responseJSON.data === undefined) {
+                            alertify.error("There is a problem, try again later.");
+                        } else {
+                            alertify.error(xhr.responseJSON.data.message);
+                        }
                     }
                 });
 
@@ -224,7 +247,11 @@
                     },
                     error: function(xhr, status, error) {
                         $("#pagination").addClass("d-none");
-                        alertify.error(xhr.responseJSON.data);
+                        if (xhr.responseJSON.data === undefined) {
+                            alertify.error("There is a problem, try again later.");
+                        } else {
+                            alertify.error(xhr.responseJSON.data.message);
+                        }
                     }
                 });
 
@@ -263,7 +290,11 @@
                         error: function(xhr, status, error) {
                             $('#projects').html('');
                             $("#pagination").addClass("d-none");
-                            alertify.error(xhr.responseJSON.data)
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         }
                     });
                 });
@@ -292,9 +323,11 @@
 
                         },
                         error: function(xhr, status, error) {
-                            alertify.error(
-                                'There is an error with the server, please try again later.'
-                            );
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         }
                     });
                 });
@@ -322,27 +355,15 @@
                             pagination_button_disabler(prev_page, next_page);
                         },
                         error: function(xhr, status, error) {
-                            alertify.error(
-                                'There is an error with the server, please try again later.'
-                            );
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         }
                     });
                 });
 
-                // Pagination button disabler
-                function pagination_button_disabler(prev_page, next_page) {
-                    if (prev_page != null) {
-                        $("#pagination_prev").attr("disabled", false);
-                    } else {
-                        $("#pagination_prev").attr("disabled", true);
-                    }
-
-                    if (next_page != null) {
-                        $("#pagination_next").attr("disabled", false);
-                    } else {
-                        $("#pagination_next").attr("disabled", true);
-                    }
-                }
                 // Show more
                 $(document).on('click', "#more", function() {
                     $(this).parent().parent().find('#description').removeClass('d-none')
@@ -399,18 +420,21 @@
                             $("#apply_modal").modal('hide');
                         },
                         error: function(xhr, status, error) {
-                            let node = '<div class="alert alert-danger">'
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                let node = '<div class="alert alert-danger">'
 
-                            $.each(xhr.responseJSON.data.messages, function(key, value) {
-                                node += `<div>${value[0]}</div>`
-                            });
-                            node += '</div>'
-                            $('#apply_status').html(node)
+                                $.each(xhr.responseJSON.data.messages, function(key, value) {
+                                    node += `<div>${value[0]}</div>`
+                                });
+                                node += '</div>'
+                                $('#apply_status').html(node)
+                            }
                         }
                     });
 
                 });
-
             });
         </script>
     </body>

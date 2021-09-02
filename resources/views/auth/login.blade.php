@@ -65,7 +65,11 @@
                             window.location.replace('/');
                         },
                         error: function(xhr, status, error) {
-                            alertify.error(xhr.responseJSON.data.message);
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
                         },
                     });
                 });

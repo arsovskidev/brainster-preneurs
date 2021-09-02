@@ -18,7 +18,7 @@ class ProjectController extends ResponseController
             ->paginate(8);
 
         if ($projects->isEmpty()) {
-            return $this->sendResponse("error", "There are no available projects.", 404);
+            return $this->sendResponse("error", ["message" => "There are no available projects."], 404);
         }
 
         return ProjectResource::collection($projects);
@@ -31,12 +31,116 @@ class ProjectController extends ResponseController
         })->paginate(8);
 
         if ($projects->isEmpty()) {
-            return $this->sendResponse("error", "There are no available projects for this academy.", 404);
+            return $this->sendResponse("error", ['message' => "There are no available projects for this academy."], 404);
         }
 
         return ProjectResource::collection($projects);
     }
 
+    public function account_projects()
+    {
+        $projects = Project::orderBy("created_at", "desc")
+            ->where('user_id', Auth::user()->id)
+            ->get();
+
+        if ($projects->isEmpty()) {
+            return $this->sendResponse("error", ['message' => "You don't have any projects."], 404);
+        }
+
+        return ProjectResource::collection($projects);
+    }
+
+    public function create(Request $request)
+    {
+        $input = $request->all();
+
+        $rules = [
+            'name' => 'required|max:255',
+            'description' => 'required|min:300|max:1000',
+            'academies' => 'required|min:1|max:4',
+        ];
+        $messages = [
+            'academies.required' => 'Please choose what people you need.',
+            'academies.min' => 'Please choose at least 1 :attribute.',
+            'academies.max' => 'You can\' choose more than 4 :attribute.',
+        ];
+
+        $validation = Validator::make($input, $rules, $messages);
+
+        if ($validation->fails()) {
+            return $this->sendResponse("error", ['message' => $validation->errors()->first()], 400);
+        }
+
+        $project = new Project();
+        $project->user_id = Auth::user()->id;
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->short_description = substr_replace($request->description, "...", 300);
+        $project->save();
+
+        foreach ($request->academies as $academy) {
+            $project->academies()->attach($academy);
+        }
+
+        return $this->sendResponse("success", ['message' => 'Project successfully created!'], 200);
+    }
+
+    public function edit(Request $request, $id)
+    {
+        $input = $request->all();
+
+        $rules = [
+            'name' => 'required|max:255',
+            'description' => 'required|min:300|max:1000',
+            'academies' => 'required|min:1|max:4',
+        ];
+        $messages = [
+            'academies.required' => 'Please choose what people you need.',
+            'academies.min' => 'Please choose at least 1 :attribute.',
+            'academies.max' => 'You can\' choose more than 4 :attribute.',
+        ];
+
+        $validation = Validator::make($input, $rules, $messages);
+
+        if ($validation->fails()) {
+            return $this->sendResponse("error", ['message' => $validation->errors()->first()], 400);
+        }
+
+        $project = Project::find($id);
+        if ($project === null) {
+            return $this->sendResponse("error", ["message" => "Invalid project."], 404);
+        }
+
+        $project->name = $request->name;
+        $project->description = $request->description;
+        $project->short_description = substr_replace($request->description, "...", 300);
+        $project->save();
+
+        $project->academies()->detach();
+
+        foreach ($request->academies as $academy) {
+            $project->academies()->attach($academy);
+        }
+
+        return $this->sendResponse("success", ['message' => 'Project successfully edited!'], 200);
+    }
+
+    public function destroy($id)
+    {
+        $project = Project::find($id);
+
+        if ($project === null) {
+            return $this->sendResponse("error", ["message" => "Invalid project."], 404);
+        }
+
+        if ($project->user_id != Auth::user()->id) {
+            return $this->sendResponse("error", ["message" => "You don't have access for this project."], 404);
+        }
+
+        $project->delete();
+
+        return $this->sendResponse("success", "Successfully removed project.", 200);
+    }
     public function apply(Request $request, $id)
     {
         $input = $request->all();

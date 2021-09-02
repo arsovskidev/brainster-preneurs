@@ -17,24 +17,28 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-
+// Login
 Route::middleware(['guest'])->group(function () {
-    Route::get('/login',       [LoginController::class, 'index'])->name('login');
-    Route::post('/login',      [AjaxController::class, 'post_login']);
+    Route::get('/login',              [LoginController::class, 'index'])->name('login');
+    Route::post('/login',             [AjaxController::class, 'post_login']);
 });
 
+// Register
 Route::prefix('register')->group(function () {
-    Route::get('/',            [RegisterController::class, 'index'])->name('register');
-    Route::post('/step-one',   [AjaxController::class, 'post_register_step_one'])->middleware('guest')->name('register_step_one');
-    Route::post('/step-two',   [AjaxController::class, 'post_register_step_two'])->middleware('auth')->name('register_step_two');
-    Route::post('/step-three', [AjaxController::class, 'post_register_step_three'])->middleware('auth')->name('register_step_three');
-    Route::post('/step-four',  [AjaxController::class, 'post_register_step_four'])->middleware('auth')->name('register_step_four');
+    Route::get('/',                   [RegisterController::class, 'index'])->name('register');
+    Route::post('/step-one',          [AjaxController::class, 'post_register_step_one'])->middleware('guest')->name('register_step_one');
+    Route::post('/step-two',          [AjaxController::class, 'post_register_step_two'])->middleware('auth')->name('register_step_two');
+    Route::post('/step-three',        [AjaxController::class, 'post_register_step_three'])->middleware('auth')->name('register_step_three');
+    Route::post('/step-four',         [AjaxController::class, 'post_register_step_four'])->middleware('auth')->name('register_step_four');
 });
 
+// Logged in / Completed registration
 Route::middleware(['auth', 'profile.completed'])->group(function () {
-    Route::get('/',             [HomeController::class, 'index'])->name('home');
-    Route::get('/profile',      [HomeController::class, 'profile'])->name('profile');
-    Route::get('/projects',     [HomeController::class, 'projects'])->name('projects');
-    Route::get('/applications', [HomeController::class, 'applications'])->name('applications');
-    Route::get('/logout',       [LoginController::class, 'logout'])->name('logout');
+    Route::get('/',                   [HomeController::class, 'index'])->name('home');
+    Route::get('/profile',            [HomeController::class, 'profile'])->name('profile');
+    Route::get('/projects',           [HomeController::class, 'projects'])->name('projects');
+    Route::get('/projects/create',    [HomeController::class, 'project_create'])->name('project.create');
+    Route::get('/projects/edit/{id}', [HomeController::class, 'project_edit'])->name('project.edit');
+    Route::get('/applications',       [HomeController::class, 'applications'])->name('applications');
+    Route::get('/logout',             [LoginController::class, 'logout'])->name('logout');
 });

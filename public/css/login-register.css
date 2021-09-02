@@ -131,13 +131,6 @@ body {
     border: 2px solid #dd7f1e;
 }
 
-.select-academy::-webkit-scrollbar-thumb,
-.select-skills::-webkit-scrollbar-thumb {
-    border-radius: 100px;
-    background: #8070d4;
-    border: 6px solid rgba(0, 0, 0, 0.2);
-}
-
 .select-academy input[type="radio"],
 .select-skills input[type="checkbox"] {
     display: none;
@@ -149,11 +142,9 @@ body {
 .select-academy input[type="radio"]:checked + .box span,
 .select-skills input[type="checkbox"]:checked + .box span {
     color: white;
-    transform: translateY(50px);
 }
 .select-academy input[type="radio"]:checked + .box span:before,
 .select-skills input[type="checkbox"]:checked + .box span:before {
-    transform: translateY(0px);
     opacity: 1;
 }
 .select-academy .box,
@@ -163,10 +154,10 @@ body {
     background-color: #fff;
     transition: all 250ms ease;
     will-change: transition;
-    display: inline-block;
+    display: table-cell;
+    vertical-align: middle;
     text-align: center;
     cursor: pointer;
-    position: relative;
     font-weight: 900;
     border-radius: 10px;
 }
@@ -176,10 +167,9 @@ body {
 }
 .select-academy .box span,
 .select-skills .box span {
-    position: absolute;
-    transform: translate(0, 50px);
-    left: 0;
-    right: 0;
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
     transition: all 300ms ease;
     font-size: 18px;
     user-select: none;
