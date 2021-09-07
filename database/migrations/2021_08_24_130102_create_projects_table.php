@@ -18,7 +18,6 @@ class CreateProjectsTable extends Migration
             $table->unsignedBigInteger('user_id');
             $table->string('name');
             $table->string('description', 1000);
-            $table->string('short_description', 350);
             $table->enum('status', ['pending', 'started'])->default('pending');
             $table->timestamps();
 

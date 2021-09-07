@@ -42,17 +42,7 @@
                                 <div class="row">
                                     <div class="col-md-12">
                                         <div class="select-project-academies">
-                                            @foreach ($academies as $academy)
-                                                <label>
-                                                    <input type="checkbox" name="academies[]"
-                                                        value="{{ $academy->id }}" />
-                                                    <div class="box">
-                                                        <span>{{ $academy->name }}</span>
-                                                    </div>
-                                                </label>
-                                            @endforeach
                                         </div>
-
                                         <div class="d-flex flex-column align-items-end">
                                             <p class="font-weight-bold text-orange fs-11 text-center m-3 mr-4">Please
                                                 select no more
@@ -74,6 +64,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -81,6 +72,37 @@
             $(document).ready(function() {
 
                 alertify.set('notifier', 'position', 'bottom-left');
+
+                // List Academies
+                $.ajax({
+                    url: '/api/v1/academies',
+                    type: 'GET',
+                    beforeSend: function(xhr) {
+                        xhr.setRequestHeader('Authorization',
+                            'Bearer {{ Session::get('access_token') }}');
+                    },
+                    data: {},
+                    success: function(data) {
+                        for (let i = 0; i < data.data.length; i++) {
+                            let node = `<label>
+                                            <input type="checkbox" name="academies[]" value="${data.data[i].id}" />
+                                            <div class="box">
+                                                <span>${data.data[i].name}</span>
+                                            </div>
+                                        </label>`;
+
+                            $(".select-project-academies").append(node);
+                        }
+
+                    },
+                    error: function(xhr, status, error) {
+                        if (xhr.responseJSON.data === undefined) {
+                            alertify.error("There is a problem, try again later.");
+                        } else {
+                            alertify.error(xhr.responseJSON.data.message);
+                        }
+                    }
+                });
 
                 $("#create_project_form").on("submit", function(e) {
                     e.preventDefault();
@@ -109,8 +131,8 @@
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                         },
                         success: function(data) {
-                            window.location.href = location.origin +
-                                '/projects#successfully-created'
+                            sessionStorage.setItem('success', 'Project successfully created!');
+                            window.location.href = location.origin + '/projects'
 
                         },
                         error: function(xhr, status, error) {

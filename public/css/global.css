@@ -58,9 +58,20 @@ nav {
 .text-red {
     color: #ff5757;
 }
+.bg-gray {
+    background-color: #dfdfdf;
+    transition: background 1s;
+}
 .btn-orange {
     background-color: #dd7f1e;
     color: #ffffff;
+}
+.btn-green {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #48695c;
+    width: 200px;
+    height: 50px;
 }
 .ajs-message .ajs-error {
     color: #ffffff;
@@ -266,13 +277,6 @@ nav {
     border: 3px solid black;
     border-radius: 10px;
 }
-.create-edit-project .btn-green {
-    margin-top: 10px;
-    margin-bottom: 15px;
-    background-color: #48695c;
-    width: 200px;
-    height: 50px;
-}
 .create-edit-project textarea {
     width: 100%;
     border: none;
@@ -280,7 +284,20 @@ nav {
     outline: none;
     resize: none;
 }
-
+.rounded-circle-border {
+    border-radius: 100%;
+    border: 10px #ffffff solid;
+}
+.skill-box {
+    width: 120px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 15px;
+    font-weight: bold;
+}
 @keyframes expand {
     from {
         transform: scale(0);

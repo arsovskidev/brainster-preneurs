@@ -11,7 +11,6 @@
     <body class="bg-projects">
 
         @include('components.navbar')
-
         <div class="container-fluid">
             <div class="row mx-5 mt-4">
                 <div class="col-md-12 p-0">
@@ -31,16 +30,13 @@
         </div>
         <script>
             $(document).ready(function() {
-                if (window.location.hash) {
-                    let hash = window.location.hash.substring(1);
-                    if (hash === 'successfully-created') {
-                        alertify.success("Project successfully created!");
-                    } else if (hash === 'successfully-edited') {
-                        alertify.success("Project successfully edited!");
-                    } else if (hash === 'project-invalid') {
-                        alertify.error("The project is invalid!");
-                    }
-                    history.replaceState(null, null, ' ');
+                if (sessionStorage.getItem("success")) {
+                    alertify.success(sessionStorage.getItem("success"));
+                    sessionStorage.removeItem('success');
+                }
+                if (sessionStorage.getItem("error")) {
+                    alertify.error(sessionStorage.getItem("error"));
+                    sessionStorage.removeItem('error');
                 }
 
                 function render_projects(data) {
@@ -54,8 +50,8 @@
                                                         <div class="row">
                                                             <div class="col-md-4">
                                                                 <div class="text-center">
-                                                                    <img class="card-img-top rounded-circle" src="${data[i].author.image}"
-                                                                        style="width: 100px; height: 100px; margin-top: -80px" />
+                                                                    <img class="card-img-top rounded-circle-border" src="${data[i].author.image}"
+                                                                        style="width: 125px; height: 125px; margin-top: -80px" />
                                                                     <h6 class="card-title font-weight-bold m-0 mt-2">
                                                                     ${data[i].author.name} ${data[i].author.surname}
                                                                     </h6>
@@ -73,7 +69,7 @@
                                                                     </div>
                                                                     <div class="col-md-6">
                                                                         <div class="float-right" style="margin-top: -60px">
-                                                                            <div class="green-circle">
+                                                                            <div id="${data[i].id}" class="green-circle show_project" role="button">
                                                                                 <div class="text-center fs-24 mt-2">${data[i].applications}</div>
                                                                                 <div class="text-center fs-11">Applicants</div>
                                                                             </div>
@@ -83,12 +79,12 @@
                                                                 <div class="row">
                                                                     <div class="col-md-12">
                                                                         <p class="fs-11 mt-3">
-                                                                            <span id='short_description'>${data[i].short_description}</span>
-                                                                            <span id='description' class='d-none'>${data[i].description}</span>
+                                                                            <span class='short_description'>${data[i].description.substr(0, 250) + "..."}</span>
+                                                                            <span class='description d-none'>${data[i].description}</span>
                                                                         </p>
                                                                         <div class="text-orange">
-                                                                            <button id="more" class="btn text-orange fs-11 float-right mb-3">show more</button>
-                                                                            <button id="less" class="btn text-orange fs-11 float-right mb-3 d-none">show less</button>
+                                                                            <div class="more text-orange fs-11 float-right mb-3" role="button">show more</div>
+                                                                            <div class="less text-orange fs-11 float-right mb-3 d-none" role="button">show less</div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -179,21 +175,21 @@
                 });
 
                 // Show more
-                $(document).on('click', "#more", function() {
-                    $(this).parent().parent().find('#description').removeClass('d-none')
-                    $(this).parent().parent().find('#short_description').addClass('d-none')
+                $(document).on('click', ".more", function() {
+                    $(this).parent().parent().find('.description').removeClass('d-none')
+                    $(this).parent().parent().find('.short_description').addClass('d-none')
 
 
-                    $(this).parent().parent().find('#more').addClass('d-none')
-                    $(this).parent().parent().find('#less').removeClass('d-none')
+                    $(this).parent().parent().find('.more').addClass('d-none')
+                    $(this).parent().parent().find('.less').removeClass('d-none')
                 });
                 // Show less
-                $(document).on('click', "#less", function() {
-                    $(this).parent().parent().find('#description').addClass('d-none')
-                    $(this).parent().parent().find('#short_description').removeClass('d-none')
+                $(document).on('click', ".less", function() {
+                    $(this).parent().parent().find('.description').addClass('d-none')
+                    $(this).parent().parent().find('.short_description').removeClass('d-none')
 
-                    $(this).parent().parent().find('#more').removeClass('d-none')
-                    $(this).parent().parent().find('#less').addClass('d-none')
+                    $(this).parent().parent().find('.more').removeClass('d-none')
+                    $(this).parent().parent().find('.less').addClass('d-none')
                 });
 
                 // Delete project
@@ -222,7 +218,18 @@
                     });
 
                 });
+
+                // Show project
+                $(document).on('click', ".show_project", function() {
+                    let id = $(this).attr('id');
+                    location.href = "/projects/" + id;
+                });
             });
         </script>
+        @if (\Session::has('error'))
+            <script>
+                alertify.error("{{ Session::get('error') }}");
+            </script>
+        @endif
     </body>
 @endsection
