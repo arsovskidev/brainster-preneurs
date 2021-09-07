@@ -97,8 +97,8 @@
                                     <div class="row">
                                         <div class="col-md-4">
                                             <div class="text-center">
-                                                <img class="card-img-top rounded-circle" src="${data[i].author.image}"
-                                                    style="width: 100px; height: 100px; margin-top: -80px" />
+                                                <img class="card-img-top rounded-circle-border" src="${data[i].author.image}"
+                                                    style="width: 125px; height: 125px; margin-top: -80px" />
                                                 <h6 class="card-title font-weight-bold m-0 mt-2">
                                                     ${data[i].author.name} ${data[i].author.surname}
                                                 </h6>
@@ -126,12 +126,12 @@
                                             <div class="row">
                                                 <div class="col-md-12">
                                                     <p class="fs-11 mt-3">
-                                                        <span id='short_description'>${data[i].short_description}</span>
-                                                        <span id='description' class='d-none'>${data[i].description}</span>
+                                                        <span class='short_description'>${data[i].description.substr(0, 250) + "..."}</span>
+                                                        <span class='description d-none'>${data[i].description}</span>
                                                     </p>
                                                     <div class="text-orange">
-                                                        <button id="more" class="btn text-orange fs-11 float-right mb-3">show more</button>
-                                                        <button id="less" class="btn text-orange fs-11 float-right mb-3 d-none">show less</button>
+                                                        <div class="more text-orange fs-11 float-right mb-3" role="button">show more</div>
+                                                        <div class="less text-orange fs-11 float-right mb-3 d-none" role="button">show less</div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -365,21 +365,21 @@
                 });
 
                 // Show more
-                $(document).on('click', "#more", function() {
-                    $(this).parent().parent().find('#description').removeClass('d-none')
-                    $(this).parent().parent().find('#short_description').addClass('d-none')
+                $(document).on('click', ".more", function() {
+                    $(this).parent().parent().find('.description').removeClass('d-none')
+                    $(this).parent().parent().find('.short_description').addClass('d-none')
 
 
-                    $(this).parent().parent().find('#more').addClass('d-none')
-                    $(this).parent().parent().find('#less').removeClass('d-none')
+                    $(this).parent().parent().find('.more').addClass('d-none')
+                    $(this).parent().parent().find('.less').removeClass('d-none')
                 });
                 // Show less
-                $(document).on('click', "#less", function() {
-                    $(this).parent().parent().find('#description').addClass('d-none')
-                    $(this).parent().parent().find('#short_description').removeClass('d-none')
+                $(document).on('click', ".less", function() {
+                    $(this).parent().parent().find('.description').addClass('d-none')
+                    $(this).parent().parent().find('.short_description').removeClass('d-none')
 
-                    $(this).parent().parent().find('#more').removeClass('d-none')
-                    $(this).parent().parent().find('#less').addClass('d-none')
+                    $(this).parent().parent().find('.more').removeClass('d-none')
+                    $(this).parent().parent().find('.less').addClass('d-none')
                 });
 
                 // Apply Modal

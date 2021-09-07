@@ -49,8 +49,8 @@ class AjaxController extends ResponseController
         $rules = [
             'name' => 'required|alpha|max:255',
             'surname' => 'required|alpha|max:255',
-            'biography' => 'required|min:50|max:255',
-            'email' => 'required|email|max:255',
+            'biography' => 'required|min:100|max:1000',
+            'email' => 'required|email|max:255|unique:users,email',
             'password' => 'required|min:8|max:64',
         ];
 

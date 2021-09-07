@@ -45,6 +45,6 @@ class User extends Authenticatable
 
     public function applications()
     {
-        return $this->belongsToMany(Project::class, 'applications', 'project_id', 'user_id');
+        return $this->belongsToMany(Project::class, 'applications', 'user_id', 'project_id')->withPivot('status', 'message');
     }
 }

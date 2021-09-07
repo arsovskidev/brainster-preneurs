@@ -76,6 +76,7 @@
                                 </div>
                             </div>
                         </div>
+                    </div>
                 </form>
             </div>
         </div>
@@ -111,8 +112,8 @@
                             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
                         },
                         success: function(data) {
-                            window.location.href = location.origin +
-                                '/projects#successfully-edited'
+                            sessionStorage.setItem('success', 'Project successfully edited!');
+                            window.location.href = location.origin + '/projects'
 
                         },
                         error: function(xhr, status, error) {

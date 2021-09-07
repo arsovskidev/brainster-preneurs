@@ -56,7 +56,7 @@ class ProjectController extends ResponseController
 
         $rules = [
             'name' => 'required|max:255',
-            'description' => 'required|min:300|max:1000',
+            'description' => 'required|min:250|max:1000',
             'academies' => 'required|min:1|max:4',
         ];
         $messages = [
@@ -75,7 +75,6 @@ class ProjectController extends ResponseController
         $project->user_id = Auth::user()->id;
         $project->name = $request->name;
         $project->description = $request->description;
-        $project->short_description = substr_replace($request->description, "...", 300);
         $project->save();
 
         foreach ($request->academies as $academy) {
@@ -107,13 +106,18 @@ class ProjectController extends ResponseController
         }
 
         $project = Project::find($id);
+
         if ($project === null) {
             return $this->sendResponse("error", ["message" => "Invalid project."], 404);
         }
 
+        // Check if user is the owner of the project.
+        if (Auth::user()->id != $project->user->id) {
+            return $this->sendResponse("error", ["message" => "Don't have access for this project."], 400);
+        }
+
         $project->name = $request->name;
         $project->description = $request->description;
-        $project->short_description = substr_replace($request->description, "...", 300);
         $project->save();
 
         $project->academies()->detach();
@@ -141,65 +145,45 @@ class ProjectController extends ResponseController
 
         return $this->sendResponse("success", "Successfully removed project.", 200);
     }
-    public function apply(Request $request, $id)
+
+    public function start($id)
     {
-        $input = $request->all();
-
-        $rules = [
-            'message' => 'required|string|max:255',
-        ];
-        $messages = [
-            'message.required' => 'Please write a message.',
-        ];
-
-        $validation = Validator::make($input, $rules, $messages);
-
-        if ($validation->fails()) {
-            return $this->sendResponse("error", ['messages' => $validation->errors()], 400);
-        }
-
-        $project = Project::where(['id' => $id, 'status' => 'pending'])
-            ->first();
+        $project = Project::find($id);
 
         if ($project === null) {
-            return $this->sendResponse("error", "Invalid project or already started.", 404);
+            return $this->sendResponse("error", ["message" => "Invalid project."], 404);
+        }
+
+        if ($project->status === 'started') {
+            return $this->sendResponse("error", ["message" => "Project team already assembled."], 404);
         }
 
         // Check if user is the owner of the project.
-        if (Auth::user()->id === $project->user->id) {
-            return $this->sendResponse("error", "This is your project, i know that you will work on it...", 400);
+        if (Auth::user()->id != $project->user->id) {
+            return $this->sendResponse("error", ["message" => "Don't have access for this project."], 400);
         }
 
-        // Check if the user already requested to join the project.
-        foreach (UserResource::collection($project->applications) as $user) {
-            if (Auth::user()->id === $user['id']) {
-                return $this->sendResponse("error", "Already applied for this project...", 400);
+        $total_working = 0;
+        foreach ($project->applications as $applicant) {
+            if ($applicant->pivot->status === "accepted") {
+                $total_working++;
             }
         }
 
-        $project->applications()->attach(Auth::user(), array('message' => $request->message));
-
-        return $this->sendResponse("success", "Successfully applied to work for this project.", 200);
-    }
-
-    public function cancel($id)
-    {
-        $project = Project::where('id', $id)
-            ->first();
-
-        if ($project === null) {
-            return $this->sendResponse("error", "Invalid project.", 404);
+        if ($total_working === 0) {
+            return $this->sendResponse("error", ["message" => "Project must have at least 1 applicant accepted before starting."], 400);
         }
 
-        // Check if the user requested to join the project.
-        foreach (UserResource::collection($project->applications) as $user) {
-            if (Auth::user()->id === $user['id']) {
-                $project->applications()->detach(Auth::user());
-
-                return $this->sendResponse("success", "Successfully canceled to work for this project.", 200);
+        foreach ($project->applications as $applicant) {
+            if ($applicant->pivot->status === "pending") {
+                $t_message = $applicant->pivot->message;
+                $project->applications()->detach($applicant->id);
+                $project->applications()->attach($applicant->id, ['message' => $t_message, 'status' => 'denied']);
             }
         }
 
-        return $this->sendResponse("error", "It appears that you don't have application for this project.", 400);
+        $project->status = "started";
+        $project->save();
+        return $this->sendResponse("success", ["message" => "Team assembled with " . $total_working . " applicants, good luck!"], 200);
     }
 }

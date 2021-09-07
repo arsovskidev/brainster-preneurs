@@ -21,6 +21,6 @@ class Project extends Model
 
     public function applications()
     {
-        return $this->belongsToMany(User::class, 'applications', 'project_id', 'user_id');
+        return $this->belongsToMany(User::class, 'applications', 'project_id', 'user_id')->withPivot('status', 'message');
     }
 }
