@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Academy;
 use App\Models\Project;
 use App\Models\User;
+use App\Models\Skill;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Auth;
@@ -19,7 +20,9 @@ class HomeController extends Controller
 
     public function profile()
     {
-        return view('home.profile');
+        $profile = Auth::user();
+        $skills = Skill::get();
+        return view('home.profile', compact('profile', 'skills'));
     }
 
     public function profile_show($id)

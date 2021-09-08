@@ -13,7 +13,7 @@
         @include('components.navbar')
 
         <div class="container-fluid">
-            <div class="create-edit-project">
+            <div class="create-edit">
                 <form id="create_project_form">
                     <div class="row mx-5 mt-4">
                         <div class="col-md-5 p-0">

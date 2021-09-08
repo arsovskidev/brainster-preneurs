@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\Project;
 use App\Http\Resources\ProjectResource;
-use App\Http\Resources\UserResource;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
@@ -90,7 +89,7 @@ class ProjectController extends ResponseController
 
         $rules = [
             'name' => 'required|max:255',
-            'description' => 'required|min:300|max:1000',
+            'description' => 'required|min:250|max:1000',
             'academies' => 'required|min:1|max:4',
         ];
         $messages = [

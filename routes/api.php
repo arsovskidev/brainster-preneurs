@@ -4,6 +4,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AcademyController;
 use App\Http\Controllers\Api\ProjectController;
 use App\Http\Controllers\Api\ApplicationController;
+use App\Http\Controllers\Api\UserController;
+use App\Http\Controllers\Auth\AjaxController;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,4 +36,7 @@ Route::group(['prefix' => 'v1', 'middleware' => ['auth:sanctum', 'profile.comple
 
     Route::get('/project/{project_id}/accept/{applicant_id}',     [ApplicationController::class, 'accept']);
     Route::get('/project/{id}/start',                             [ProjectController::class, 'start']);
+
+
+    Route::post('/profile/edit',                                   [UserController::class, 'edit']);
 });
