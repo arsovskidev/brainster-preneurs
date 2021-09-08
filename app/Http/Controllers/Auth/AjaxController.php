@@ -60,7 +60,7 @@ class AjaxController extends ResponseController
             return $this->sendResponse("error", ['message' => $validation->errors()->first()], 400);
         }
 
-        $input['password'] = Hash::make($input['password']);
+        $input['password'] = Hash::make($request->password);
 
         $user = User::create($input);
         Auth::login($user);
@@ -87,7 +87,7 @@ class AjaxController extends ResponseController
             return $this->sendResponse("error", ['message' => $validation->errors()->first()], 400);
         }
 
-        $academy = Academy::find($input['academy']);
+        $academy = Academy::find($request->academy);
 
         if ($academy === null) {
             return $this->sendResponse("error", ['message' => 'Please select valid academy.'], 400);
@@ -132,7 +132,7 @@ class AjaxController extends ResponseController
             return $this->sendResponse("error", ['message' => 'You have already selected skills. Please reload webpage.'], 400);
         }
 
-        foreach ($input['skills'] as $skill) {
+        foreach ($request->skills as $skill) {
             $user->skills()->attach($skill);
         }
 

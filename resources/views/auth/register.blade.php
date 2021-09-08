@@ -161,10 +161,11 @@
                                 </div>
 
                                 <div class="d-flex flex-column align-items-center">
-                                    <img id="profileImagePreview" class="rounded-circle mt-3"
-                                        src="{{ asset('icons/9.png') }}" style="width: 200px; height: 200px" />
                                     <input accept="image/*" type="file" id="image" name="image" hidden />
-                                    <label class="h4 font-weight-light my-5" for="image">
+                                    <label class="h4 font-weight-light my-5 d-flex flex-column align-items-center"
+                                        for="image">
+                                        <img id="profileImagePreview" class="rounded-circle mt-3 mb-3"
+                                            src="{{ asset('icons/9.png') }}" style="width: 200px; height: 200px" />
                                         Click here to upload an image
                                     </label>
 
