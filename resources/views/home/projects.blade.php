@@ -25,6 +25,9 @@
                     </div>
                 </div>
             </div>
+            <div id="loader" class="text-center mt-5">
+                <div class="load-dual-ring"></div>
+            </div>
             <section id="projects">
             </section>
         </div>
@@ -39,11 +42,12 @@
                     sessionStorage.removeItem('error');
                 }
 
+                show_loader();
+
                 function render_projects(data) {
                     for (let i = 0; i < data.length; i++) {
-                        setTimeout(function() {
-                            let node =
-                                `<div class="row project">
+                        let node =
+                            `<div class="row project animate__animated animate__fadeIn">
                                             <div class="col-md-8 offset-md-2">
                                                 <div class="card">
                                                     <div class="card-body">
@@ -98,21 +102,21 @@
                                                                 <div class="d-flex justify-content-center text-center">`;
 
 
-                            if (data[i].academies != undefined) {
-                                for (let x = 0; x < data[i].academies.length; x++) {
-                                    node += `
+                        if (data[i].academies != undefined) {
+                            for (let x = 0; x < data[i].academies.length; x++) {
+                                node += `
                                             <div class="half-green-circle">
                                                 <p class="text-light font-weight-bold fs-8 mt-2">
                                                     ${data[i].academies[x].name}
                                                 </p>
                                             </div>`;
-                                }
-                                node += `</div>
-                                    </div>`;
                             }
+                            node += `</div>
+                                    </div>`;
+                        }
 
-                            if (data[i].status == 'started') {
-                                node += `
+                        if (data[i].status == 'started') {
+                            node += `
                                 <div class="col-md-8 mt-4">
                                         <div class="shield down float-right mr-4">
                                             <div class="content">
@@ -120,8 +124,8 @@
                                             </div>
                                         </div>
                                 </div>`;
-                            }
-                            node += `</div>
+                        }
+                        node += `</div>
                                     </div>
                                     </div>
                                 </div>
@@ -135,8 +139,10 @@
                                 </div>
                             </div>`;
 
-                            $("#projects").append(node);
-                        }, 200 * i);
+                        if (data.length == 1) {
+                            node = "<div style='height: 100vh;'>" + node + "</div>"
+                        }
+                        $("#projects").append(node);
                     }
                 }
 
@@ -149,9 +155,11 @@
                     },
                     data: {},
                     success: function(data) {
+                        hide_loader();
                         render_projects(data.data);
                     },
                     error: function(xhr, status, error) {
+                        show_loader();
                         if (xhr.responseJSON.data === undefined) {
                             alertify.error("There is a problem, try again later.");
                         } else {
@@ -224,6 +232,15 @@
                     let id = $(this).attr('id');
                     location.href = "/projects/" + id;
                 });
+
+                // Loader
+                function show_loader() {
+                    $("#loader").removeClass('d-none');
+                }
+
+                function hide_loader() {
+                    $("#loader").addClass('d-none');
+                }
             });
         </script>
         @if (\Session::has('error'))

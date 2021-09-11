@@ -17,15 +17,20 @@
                     <h3 class="font-weight-bold mr-3">My Applications</h3>
                 </div>
             </div>
+            <div id="loader" class="text-center mt-5">
+                <div class="load-dual-ring"></div>
+            </div>
             <section id="applications">
             </section>
         </div>
         <script>
-            function render_projects(data) {
-                for (let i = 0; i < data.length; i++) {
-                    setTimeout(function() {
+            $(document).ready(function() {
+                show_loader();
+
+                function render_projects(data) {
+                    for (let i = 0; i < data.length; i++) {
                         let node =
-                            `<div class="row application">
+                            `<div class="row application animate__animated animate__fadeIn">
                                             <div class="col-md-8 offset-md-2">
                                                 <div class="card">
                                                     <div class="card-body">
@@ -95,12 +100,12 @@
 
                         if (data[i].status == 'accepted') {
                             node += `
-                                <div class="col-md-8 mt-4">
+                                <div class="col-md-8 mt-5 mb-2">
                                     <div class="row">
-                                        <div class="col-md-5 my-auto">
+                                        <div class="col-10 col-md-5 my-auto">
                                             <h6 class="text-green m-0">Application Accepted</h6>
                                         </div>
-                                        <div class="col-md-7 p-0">
+                                        <div class="col-2 col-md-7 p-0">
                                             <img src="/icons/5.png" alt="" style="width: 25px; height: 25px" />
                                         </div>
                                     </div>
@@ -112,12 +117,12 @@
                                 </div>`;
                         } else {
                             if (data[i].status == 'denied') {
-                                node += `<div class="col-md-8 mt-4">
+                                node += `<div class="col-md-8 mt-5 mb-2">
                                     <div class="row">
-                                        <div class="col-md-5 my-auto">
+                                        <div class="col-10 col-md-5 my-auto">
                                             <h6 class="text-red m-0">Application Denied</h6>
                                         </div>
-                                        <div class="col-md-7 p-0">
+                                        <div class="col-2 col-md-7 p-0">
                                             <img src="/icons/6.png" alt="" style="width: 25px; height: 25px" />
                                         </div>
                                     </div>
@@ -136,78 +141,24 @@
                             </div>`;
                         }
 
-
+                        if (data.length == 1) {
+                            node = "<div style='height: 100vh;'>" + node + "</div>"
+                        }
                         $("#applications").append(node);
-                    }, 200 * i);
-                }
-            }
-
-            $.ajax({
-                url: '/api/v1/account/applications',
-                type: 'GET',
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader('Authorization',
-                        'Bearer {{ Session::get('access_token') }}');
-                },
-                data: {},
-                success: function(data) {
-                    render_projects(data.data);
-                },
-                error: function(xhr, status, error) {
-                    if (xhr.responseJSON.data === undefined) {
-                        alertify.error("There is a problem, try again later.");
-                    } else {
-                        alertify.error(xhr.responseJSON.data.message);
                     }
                 }
-            });
-
-            // Project hover
-            $(document).on('mouseenter', '.application', function() {
-                let actions = $(this).find('.project-actions');
-
-                actions.addClass('animate__fadeInLeft');
-                actions.show();
-            });
-            $(document).on('mouseleave', '.application', function() {
-                let actions = $(this).find('.project-actions');
-
-                actions.removeClass('animate__fadeInLeft');
-                actions.hide();
-            });
-
-            // Show more
-            $(document).on('click', ".more", function() {
-                $(this).parent().parent().find('.description').removeClass('d-none')
-                $(this).parent().parent().find('.short_description').addClass('d-none')
-
-
-                $(this).parent().parent().find('.more').addClass('d-none')
-                $(this).parent().parent().find('.less').removeClass('d-none')
-            });
-            // Show less
-            $(document).on('click', ".less", function() {
-                $(this).parent().parent().find('.description').addClass('d-none')
-                $(this).parent().parent().find('.short_description').removeClass('d-none')
-
-                $(this).parent().parent().find('.more').removeClass('d-none')
-                $(this).parent().parent().find('.less').addClass('d-none')
-            });
-
-            // Cancel application
-            $(document).on('click', '.cancel_button', function() {
-                let id = $(this).attr('id');
 
                 $.ajax({
-                    url: location.origin + '/api/v1/project/cancel/' + id,
+                    url: '/api/v1/account/applications',
                     type: 'GET',
                     beforeSend: function(xhr) {
                         xhr.setRequestHeader('Authorization',
                             'Bearer {{ Session::get('access_token') }}');
                     },
+                    data: {},
                     success: function(data) {
-                        alertify.success(data.data.message);
-                        $("#" + id + ".cancel_button").parent().parent().parent().hide(750);
+                        render_projects(data.data);
+                        hide_loader();
                     },
                     error: function(xhr, status, error) {
                         if (xhr.responseJSON.data === undefined) {
@@ -215,10 +166,76 @@
                         } else {
                             alertify.error(xhr.responseJSON.data.message);
                         }
-
                     }
                 });
 
+                // Project hover
+                $(document).on('mouseenter', '.application', function() {
+                    let actions = $(this).find('.project-actions');
+
+                    actions.addClass('animate__fadeInLeft');
+                    actions.show();
+                });
+                $(document).on('mouseleave', '.application', function() {
+                    let actions = $(this).find('.project-actions');
+
+                    actions.removeClass('animate__fadeInLeft');
+                    actions.hide();
+                });
+
+                // Show more
+                $(document).on('click', ".more", function() {
+                    $(this).parent().parent().find('.description').removeClass('d-none')
+                    $(this).parent().parent().find('.short_description').addClass('d-none')
+
+
+                    $(this).parent().parent().find('.more').addClass('d-none')
+                    $(this).parent().parent().find('.less').removeClass('d-none')
+                });
+                // Show less
+                $(document).on('click', ".less", function() {
+                    $(this).parent().parent().find('.description').addClass('d-none')
+                    $(this).parent().parent().find('.short_description').removeClass('d-none')
+
+                    $(this).parent().parent().find('.more').removeClass('d-none')
+                    $(this).parent().parent().find('.less').addClass('d-none')
+                });
+
+                // Cancel application
+                $(document).on('click', '.cancel_button', function() {
+                    let id = $(this).attr('id');
+
+                    $.ajax({
+                        url: location.origin + '/api/v1/project/cancel/' + id,
+                        type: 'GET',
+                        beforeSend: function(xhr) {
+                            xhr.setRequestHeader('Authorization',
+                                'Bearer {{ Session::get('access_token') }}');
+                        },
+                        success: function(data) {
+                            alertify.success(data.data.message);
+                            $("#" + id + ".cancel_button").parent().parent().parent().hide(750);
+                        },
+                        error: function(xhr, status, error) {
+                            if (xhr.responseJSON.data === undefined) {
+                                alertify.error("There is a problem, try again later.");
+                            } else {
+                                alertify.error(xhr.responseJSON.data.message);
+                            }
+
+                        }
+                    });
+
+                });
+
+                // Loader
+                function show_loader() {
+                    $("#loader").removeClass('d-none');
+                }
+
+                function hide_loader() {
+                    $("#loader").addClass('d-none');
+                }
             });
         </script>
     </body>

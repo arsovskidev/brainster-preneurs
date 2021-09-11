@@ -49,8 +49,6 @@
                                 <label for="biography" class="text-gray font-weight-bold mt-5 mb-3">Biography</label>
                                 <textarea name="biography" id="biography" class="text-muted w-100" rows="5"
                                     placeholder="Please write your biography.">{{ $profile->biography }}</textarea>
-
-                                <a href="{{ route('logout') }}" class="btn btn-danger my-3">logout</a>
                             </div>
                         </div>
                         <div class="col-md-6 offset-md-1 p-0 mt-4">
@@ -82,7 +80,10 @@
                                             mt-5
                                           ">
                                                 edit
-                                            </button>
+                                            </button><a href="{{ route('logout') }}"
+                                                class="btn btn-sm btn-dark text-uppercase">
+                                                logout
+                                            </a>
                                         </div>
                                     </div>
                                 </div>

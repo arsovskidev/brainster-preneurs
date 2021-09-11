@@ -14,10 +14,10 @@
 
         <div class="container-fluid">
             <div class="row mx-5 mt-5">
-                <div class="col-xl-4 position-fixed p-0">
+                <div class="col-xl-4 filter-container p-0">
                     <h6 class="font-weight-bold">In what field can you be amazing?</h6>
                     <div class="row">
-                        <div class="col-md-8 col-10">
+                        <div class="col-lg-8">
                             <div id="project_filters" class="project-filter">
                                 <label>
                                     <input type="radio" name="project-filter" value="0" checked />
@@ -37,11 +37,14 @@
                                     style="width: 35px; height: 35px; margin-top: 7px; margin-right: 5px;" />
                                 <h6 class="font-weight-bold">Checkout the latest projects</h6>
                             </div>
+                            <div id="loader" class="text-center">
+                                <div class="load-dual-ring"></div>
+                            </div>
                             <section id="projects">
                             </section>
                         </div>
                     </div>
-                    <div id="pagination" class="text-center my-5">
+                    <div id="pagination" class="text-center my-5 d-none">
                         <button id="pagination_prev" class="btn btn-orange mt-5 mr-1" disabled>
                             <i class="fas fa-arrow-left"></i>
                         </button>
@@ -85,14 +88,14 @@
                 let prev_page;
                 let next_page;
 
+                show_loader();
+
                 // Render cards in html dom from array
                 function render_projects(data) {
                     $("#projects").html("");
-                    $("#pagination").addClass('d-none');
 
                     for (let i = 0; i < data.length; i++) {
-                        setTimeout(function() {
-                            let node = `<div class="card">
+                        let node = `<div class="card animate__animated animate__fadeIn">
                                 <div class="card-body">
                                     <div class="row">
                                         <div class="col-md-4">
@@ -145,40 +148,36 @@
                                             <div class="d-flex justify-content-center text-center">`
 
 
-                            if (data[i].academies != undefined) {
-                                for (let x = 0; x < data[i].academies.length; x++) {
-                                    node += `
+                        if (data[i].academies != undefined) {
+                            for (let x = 0; x < data[i].academies.length; x++) {
+                                node += `
                                             <div class="half-green-circle">
                                                 <p class="text-light font-weight-bold fs-8 mt-2">
                                                     ${data[i].academies[x].name}
                                                 </p>
                                             </div>`;
-                                }
                             }
+                        }
 
-                            node += `</div>
+                        node += `</div>
                             </div>
                             <div class="col-md-8 mt-4">`;
 
-                            if (data[i].available) {
-                                node +=
-                                    `<button id="${data[i].id}" class="btn btn-project-green apply_button text-uppercase float-right">i 'm in</button>`;
-                            } else {
-                                node +=
-                                    `<button class="btn btn-project-green text-uppercase float-right" disabled>i 'm in</button>`;
-                            }
-                            node += `
+                        if (data[i].available) {
+                            node +=
+                                `<button id="${data[i].id}" class="btn btn-project-green apply_button text-uppercase float-right">i 'm in</button>`;
+                        } else {
+                            node +=
+                                `<button class="btn btn-project-green text-uppercase float-right" disabled>i 'm in</button>`;
+                        }
+                        node += `
                             </div>
                             </div>
                             </div>
                             </div>`;
 
-                            $("#projects").append(node);
-                        }, 200 * i);
+                        $("#projects").append(node);
                     }
-
-                    $("#pagination").removeClass('d-none');
-
                 }
 
                 // Pagination button logic
@@ -237,15 +236,17 @@
                     },
                     data: {},
                     success: function(data) {
+                        hide_loader();
                         $("#pagination").removeClass("d-none");
 
                         render_projects(data.data);
                         prev_page = data.links.prev;
                         next_page = data.links.next;
 
-                        pagination_button_disabler(prev_page, next_page);
+                        pagination_button_logic(prev_page, next_page);
                     },
                     error: function(xhr, status, error) {
+                        show_loader();
                         $("#pagination").addClass("d-none");
                         if (xhr.responseJSON.data === undefined) {
                             alertify.error("There is a problem, try again later.");
@@ -264,11 +265,13 @@
 
                     let academy = $("input[name='project-filter']:checked");
                     let url;
+
                     if (academy.val() != 0) {
                         url = '/api/v1/projects/academy/' + academy.val();
                     } else {
                         url = '/api/v1/projects';
                     }
+
                     $.ajax({
                         url: url,
                         type: 'GET',
@@ -278,6 +281,7 @@
                         },
                         data: {},
                         success: function(data) {
+                            hide_loader();
                             $('#projects').html('');
                             $("#pagination").removeClass("d-none");
 
@@ -285,9 +289,10 @@
                             prev_page = data.links.prev;
                             next_page = data.links.next;
 
-                            pagination_button_disabler(prev_page, next_page);
+                            pagination_button_logic(prev_page, next_page);
                         },
                         error: function(xhr, status, error) {
+                            show_loader();
                             $('#projects').html('');
                             $("#pagination").addClass("d-none");
                             if (xhr.responseJSON.data === undefined) {
@@ -315,14 +320,16 @@
                         },
                         data: {},
                         success: function(data) {
+                            hide_loader();
                             render_projects(data.data)
                             prev_page = data.links.prev
                             next_page = data.links.next
 
-                            pagination_button_disabler(prev_page, next_page);
+                            pagination_button_logic(prev_page, next_page);
 
                         },
                         error: function(xhr, status, error) {
+                            show_loader();
                             if (xhr.responseJSON.data === undefined) {
                                 alertify.error("There is a problem, try again later.");
                             } else {
@@ -348,13 +355,15 @@
                         },
                         data: {},
                         success: function(data) {
+                            hide_loader();
                             render_projects(data.data)
                             prev_page = data.links.prev
                             next_page = data.links.next
 
-                            pagination_button_disabler(prev_page, next_page);
+                            pagination_button_logic(prev_page, next_page);
                         },
                         error: function(xhr, status, error) {
+                            show_loader();
                             if (xhr.responseJSON.data === undefined) {
                                 alertify.error("There is a problem, try again later.");
                             } else {
@@ -410,7 +419,7 @@
                             message: message.val(),
                         }),
                         success: function(data) {
-                            alertify.success(data.data);
+                            alertify.success(data.data.message);
                             $("#" + id + ".apply_button").attr("disabled", true);
 
                             let current_applications_count = $(".applications_count#" + id).text();
@@ -435,6 +444,17 @@
                     });
 
                 });
+
+                // Loader
+                function show_loader() {
+                    $("#loader").removeClass('d-none');
+                    $("#pagination").addClass('d-none');
+                }
+
+                function hide_loader() {
+                    $("#loader").addClass('d-none');
+                    $("#pagination").removeClass('d-none');
+                }
             });
         </script>
     </body>

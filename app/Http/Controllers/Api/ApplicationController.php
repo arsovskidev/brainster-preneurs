@@ -43,24 +43,24 @@ class ApplicationController extends ResponseController
             ->first();
 
         if ($project === null) {
-            return $this->sendResponse("error", "Invalid project or already started.", 404);
+            return $this->sendResponse("error", ['message' => "Invalid project or already started."], 404);
         }
 
         // Check if user is the owner of the project.
         if (Auth::user()->id === $project->user->id) {
-            return $this->sendResponse("error", "This is your project, i know that you will work on it...", 400);
+            return $this->sendResponse("error", ['message' => "This is your project, i know that you will work on it..."], 400);
         }
 
         // Check if the user requested to join the project.
         foreach (ApplicationResource::collection($project->applications) as $user) {
             if (Auth::user()->id === $user->id) {
-                return $this->sendResponse("error", "Already applied for this project...", 400);
+                return $this->sendResponse("error", ['message' => "Already applied for this project..."], 400);
             }
         }
 
         $project->applications()->attach(Auth::user(), ['message' => $request->message]);
 
-        return $this->sendResponse("success", "Successfully applied to work for this project.", 200);
+        return $this->sendResponse("success", ['message' => "Successfully applied to work for this project."], 200);
     }
 
     public function cancel($id)
@@ -70,11 +70,6 @@ class ApplicationController extends ResponseController
 
         if ($project === null) {
             return $this->sendResponse("error", "Invalid project.", 404);
-        }
-
-        // Check if user is the owner of the project.
-        if (Auth::user()->id === $project->user->id) {
-            return $this->sendResponse("error", "This is your project, i know that you will work on it...", 400);
         }
 
         // Check if the user requested to join the project.

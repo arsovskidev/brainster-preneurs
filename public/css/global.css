@@ -8,7 +8,8 @@ body {
     font-family: "Montserrat";
     color: #000000;
     background-color: #f6f6f6;
-    padding-top: 59px;
+    padding-top: 60px;
+    padding-bottom: 60px;
 }
 
 nav {
@@ -144,7 +145,6 @@ nav {
     margin-top: 100px;
     border: 0px;
     border-radius: 30px;
-    animation: expand 1s ease-in-out;
 }
 .project-filter {
     margin-top: 40px;
@@ -337,7 +337,7 @@ nav {
     opacity: 1;
 }
 .select-skills .box {
-    width: 100px;
+    width: 120px;
     height: 100px;
     background-color: #fff;
     transition: all 250ms ease;
@@ -371,9 +371,48 @@ nav {
     color: white;
 }
 
+#loader {
+    height: 100vh;
+}
+.load-dual-ring {
+    display: inline-block;
+    width: 80px;
+    height: 80px;
+}
+.load-dual-ring:after {
+    content: " ";
+    display: block;
+    width: 64px;
+    height: 64px;
+    margin: 8px;
+    border-radius: 50%;
+    border: 6px solid #dd7f1e;
+    border-color: #dd7f1e transparent #dd7f1e transparent;
+    animation: load-dual-ring 1.2s linear infinite;
+}
+
 @keyframes expand {
     from {
         transform: scale(0);
         opacity: 0;
+    }
+}
+@keyframes load-dual-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .filter-container {
+        position: absolute;
+    }
+}
+@media only screen and (min-width: 1200px) {
+    .filter-container {
+        position: fixed;
     }
 }
