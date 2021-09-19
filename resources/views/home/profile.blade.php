@@ -81,7 +81,7 @@
                                           ">
                                                 edit
                                             </button><a href="{{ route('logout') }}"
-                                                class="btn btn-sm btn-dark text-uppercase">
+                                                class="btn btn-sm btn-logout text-uppercase">
                                                 logout
                                             </a>
                                         </div>

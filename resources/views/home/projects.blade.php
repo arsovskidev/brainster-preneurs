@@ -60,7 +60,7 @@
                                                                     ${data[i].author.name} ${data[i].author.surname}
                                                                     </h6>
                                                                     <p class="fs-10 font-weight-bold text-orange mt-1">
-                                                                        ${data[i].author.academy.name}
+                                                                        I'm a ${data[i].author.academy.title}
                                                                     </p>
                                                                 </div>
                                                             </div>
@@ -107,7 +107,7 @@
                                 node += `
                                             <div class="half-green-circle">
                                                 <p class="text-light font-weight-bold fs-8 mt-2">
-                                                    ${data[i].academies[x].name}
+                                                    ${data[i].academies[x].short}
                                                 </p>
                                             </div>`;
                             }
@@ -138,10 +138,6 @@
                                     </div>
                                 </div>
                             </div>`;
-
-                        if (data.length == 1) {
-                            node = "<div style='height: 100vh;'>" + node + "</div>"
-                        }
                         $("#projects").append(node);
                     }
                 }

@@ -55,7 +55,7 @@
                                                         {{ $applicant->name }}
                                                         {{ $applicant->surname }}</h5>
                                                 </a>
-                                                <h6 class="text-orange font-weight-bold">{{ $applicant->academy->name }}
+                                                <h6 class="text-orange font-weight-bold">{{ $applicant->academy->title }}
                                                 </h6>
                                                 <p class="fs-10 text-muted">{{ $applicant->email }}</p>
                                                 <p class="card-text text-blue font-weight-bold fs-12">

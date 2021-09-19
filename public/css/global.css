@@ -10,6 +10,7 @@ body {
     background-color: #f6f6f6;
     padding-top: 60px;
     padding-bottom: 60px;
+    min-height: 100vh;
 }
 
 nav {
@@ -278,6 +279,8 @@ nav {
 .create-edit .bottom-line {
     border: 3px solid black;
     border-radius: 10px;
+    padding: 0;
+    background-color: black;
 }
 .create-edit textarea {
     width: 100%;
@@ -391,6 +394,10 @@ nav {
     animation: load-dual-ring 1.2s linear infinite;
 }
 
+.btn-logout {
+    background-color: #ff5757;
+    color: #ffffff;
+}
 @keyframes expand {
     from {
         transform: scale(0);

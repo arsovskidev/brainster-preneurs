@@ -8,6 +8,7 @@ body {
     font-family: "Montserrat";
     color: #212529;
     background-color: #f6f6f6;
+    min-height: 100vh;
 }
 
 /* Backgrounds */
@@ -68,7 +69,8 @@ body {
     border: 3px solid black;
     border-radius: 10px;
     margin-bottom: 10px;
-    padding: 0px;
+    padding: 0;
+    background-color: black;
 }
 
 .register .header-orange-line {
