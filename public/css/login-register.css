@@ -1,0 +1,195 @@
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600&display=swap");
+
+html {
+    background-color: #f6f6f6;
+}
+
+body {
+    font-family: "Montserrat";
+    color: #212529;
+    background-color: #f6f6f6;
+    min-height: 100vh;
+}
+
+.text-red {
+    color: #ff5757;
+}
+.fs-11 {
+    font-size: 11px;
+}
+/* Backgrounds */
+.bg-login {
+    background: url(../backgrounds/1.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: top;
+}
+.bg-register {
+    background: url(../backgrounds/2.jpg);
+    background-repeat: no-repeat;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-position: top;
+}
+
+/* Colors */
+.text-blue {
+    color: #132540;
+}
+.text-gray {
+    color: #949d99;
+}
+
+/* Login & Register */
+.login-hero {
+    margin-top: 160px;
+}
+
+.login-form {
+    margin-top: 220px;
+}
+
+.register {
+    margin-top: 50px;
+}
+
+.login-form input,
+.register input {
+    width: 100%;
+    font-size: 13pt;
+    line-height: 28pt;
+    font-weight: 600;
+    border: none;
+    background: transparent;
+    outline: none;
+    color: black;
+}
+
+.login-form .bottom-line,
+.register .bottom-line {
+    border: 3px solid black;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 0;
+    background-color: black;
+}
+
+.register .header-orange-line {
+    border: 2px solid #dd7f1e;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
+    width: 100%;
+    height: 1px;
+}
+
+.login-form .btn-orange {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #dd7f1e;
+    width: 170px;
+    height: 35px;
+}
+.register .btn-green {
+    margin-top: 10px;
+    margin-bottom: 15px;
+    background-color: #48695c;
+    width: 250px;
+    height: 50px;
+}
+
+.register textarea {
+    width: 100%;
+    border: none;
+    background: transparent;
+    outline: none;
+    resize: none;
+    color: #949d99;
+}
+
+/* Select Academy, Select Skills */
+.select-academy,
+.select-skills {
+    width: 100%;
+    height: 200px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    text-align: center;
+    overflow: auto;
+    text-align: justify;
+    scrollbar-color: #dd7f1e #f6f6f6;
+}
+
+*::-webkit-scrollbar {
+    width: 12px;
+}
+
+*::-webkit-scrollbar-track {
+    background: #f6f6f6;
+}
+
+*::-webkit-scrollbar-thumb {
+    background-color: #dd7f1e;
+    border-radius: 20px;
+    border: 2px solid #dd7f1e;
+}
+
+.select-academy input[type="radio"],
+.select-skills input[type="checkbox"] {
+    display: none;
+}
+.select-academy input[type="radio"]:checked + .box,
+.select-skills input[type="checkbox"]:checked + .box {
+    background-color: #48695c;
+}
+.select-academy input[type="radio"]:checked + .box span,
+.select-skills input[type="checkbox"]:checked + .box span {
+    color: white;
+}
+.select-academy input[type="radio"]:checked + .box span:before,
+.select-skills input[type="checkbox"]:checked + .box span:before {
+    opacity: 1;
+}
+.select-academy .box,
+.select-skills .box {
+    width: 150px;
+    height: 150px;
+    background-color: #fff;
+    transition: all 250ms ease;
+    will-change: transition;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    cursor: pointer;
+    font-weight: 900;
+    border-radius: 10px;
+}
+.select-academy .box:active,
+.select-skills .box:active {
+    transform: translateY(10px);
+}
+.select-academy .box span,
+.select-skills .box span {
+    display: inline-block;
+    vertical-align: middle;
+    line-height: normal;
+    transition: all 300ms ease;
+    font-size: 18px;
+    user-select: none;
+    color: #292b2c;
+}
+.select-academy .box span:before,
+.select-skills .box span:before {
+    font-size: 18px;
+    display: block;
+    transform: translateY(-80px);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+    font-weight: normal;
+    color: white;
+}
