@@ -45,12 +45,14 @@
                         </div>
                     </div>
                     <div id="pagination" class="text-center my-5 d-none">
+
                         <button id="pagination_prev" class="btn btn-orange mt-5 mr-1" disabled>
                             <i class="fas fa-arrow-left"></i>
                         </button>
                         <button id="pagination_next" class="btn btn-orange mt-5 ml-1" disabled>
                             <i class="fas fa-arrow-right"></i>
                         </button>
+                        <p class="fs-18 mt-3">- <span id="current_page">0</span> -</p>
                     </div>
                 </div>
             </div>
@@ -87,6 +89,7 @@
             $(document).ready(function() {
                 let prev_page;
                 let next_page;
+                let current_page;
 
                 show_loader();
 
@@ -180,6 +183,11 @@
                     }
                 }
 
+                function update_current_page(page) {
+                    $("#current_page").text(page)
+
+                }
+
                 // Pagination button logic
                 function pagination_button_logic(prev_page, next_page) {
                     if (prev_page != null) {
@@ -243,6 +251,8 @@
                         prev_page = data.links.prev;
                         next_page = data.links.next;
 
+                        update_current_page(data.meta.current_page)
+
                         pagination_button_logic(prev_page, next_page);
                     },
                     error: function(xhr, status, error) {
@@ -289,6 +299,8 @@
                             prev_page = data.links.prev;
                             next_page = data.links.next;
 
+                            update_current_page(data.meta.current_page)
+
                             pagination_button_logic(prev_page, next_page);
                         },
                         error: function(xhr, status, error) {
@@ -325,6 +337,8 @@
                             prev_page = data.links.prev
                             next_page = data.links.next
 
+                            update_current_page(data.meta.current_page)
+
                             pagination_button_logic(prev_page, next_page);
 
                         },
@@ -359,6 +373,8 @@
                             render_projects(data.data)
                             prev_page = data.links.prev
                             next_page = data.links.next
+
+                            update_current_page(data.meta.current_page)
 
                             pagination_button_logic(prev_page, next_page);
                         },
