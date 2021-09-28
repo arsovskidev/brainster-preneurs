@@ -32,6 +32,7 @@
                                     project</label>
                                 <textarea id="description" class="text-muted w-100" rows="7"
                                     placeholder="Write the description for the project."></textarea>
+                                <p id="characters_left" class="fs-11 text-right"></p>
                             </div>
                         </div>
                         <div class="col-md-6 offset-md-1 p-0">
@@ -72,6 +73,23 @@
             $(document).ready(function() {
 
                 alertify.set('notifier', 'position', 'bottom-left');
+
+                // Description characters.
+                checkTextAreaCount()
+
+                $('#description').keyup(function() {
+                    checkTextAreaCount();
+                });
+
+                function checkTextAreaCount() {
+                    if ($('#description').val().length <= 1000) {
+                        $('#characters_left').removeClass("text-red")
+                        $('#characters_left').text((1000 - $('#description').val().length) + " characters left");
+                    } else {
+                        $('#characters_left').addClass("text-red")
+                        $('#characters_left').text(($('#description').val().length - 1000) + " characters exceeded");
+                    }
+                }
 
                 // List Academies
                 $.ajax({

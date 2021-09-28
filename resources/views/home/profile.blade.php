@@ -49,6 +49,7 @@
                                 <label for="biography" class="text-gray font-weight-bold mt-5 mb-3">Biography</label>
                                 <textarea name="biography" id="biography" class="text-muted w-100" rows="5"
                                     placeholder="Please write your biography.">{{ $profile->biography }}</textarea>
+                                <p id="characters_left" class="fs-11 text-right"></p>
                             </div>
                         </div>
                         <div class="col-md-6 offset-md-1 p-0 mt-4">
@@ -97,6 +98,23 @@
             $(document).ready(function() {
 
                 alertify.set('notifier', 'position', 'bottom-right');
+
+                // Biography characters.
+                checkTextAreaCount()
+
+                $('#biography').keyup(function() {
+                    checkTextAreaCount();
+                });
+
+                function checkTextAreaCount() {
+                    if ($('#biography').val().length <= 1000) {
+                        $('#characters_left').removeClass("text-red")
+                        $('#characters_left').text((1000 - $('#biography').val().length) + " characters left");
+                    } else {
+                        $('#characters_left').addClass("text-red")
+                        $('#characters_left').text(($('#biography').val().length - 1000) + " characters exceeded");
+                    }
+                }
 
                 // Profile Image Preview.
                 image.onchange = (evt) => {

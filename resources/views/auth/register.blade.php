@@ -40,6 +40,7 @@
                                 </div>
                                 <h5 class="text-gray mt-5 mb-3">Biography</h5>
                                 <textarea id="biography" rows="6" placeholder="Write your biography." required></textarea>
+                                <p id="characters_left" class="fs-11 text-right"></p>
                                 <button class="btn btn-green text-uppercase font-weight-bold text-light">
                                     next
                                 </button>
@@ -207,6 +208,23 @@
                     $("#step-four").addClass("animate__fadeIn");
                 }
 
+                // Biography characters.
+
+                checkTextAreaCount()
+
+                $('#biography').keyup(function() {
+                    checkTextAreaCount();
+                });
+
+                function checkTextAreaCount() {
+                    if ($('#biography').val().length <= 1000) {
+                        $('#characters_left').removeClass("text-red")
+                        $('#characters_left').text((1000 - $('#biography').val().length) + " characters left");
+                    } else {
+                        $('#characters_left').addClass("text-red")
+                        $('#characters_left').text(($('#biography').val().length - 1000) + " characters exceeded");
+                    }
+                }
                 // Profile Image Preview.
                 image.onchange = (evt) => {
                     const [file] = image.files;

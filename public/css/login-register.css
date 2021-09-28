@@ -11,6 +11,12 @@ body {
     min-height: 100vh;
 }
 
+.text-red {
+    color: #ff5757;
+}
+.fs-11 {
+    font-size: 11px;
+}
 /* Backgrounds */
 .bg-login {
     background: url(../backgrounds/1.jpg);
